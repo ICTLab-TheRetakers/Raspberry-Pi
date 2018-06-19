@@ -33,6 +33,9 @@ threshold_value = 400
 blue = 0    # The Blue colored sensor.
 white = 1   # The White colored sensor.
 
+#set the device_id of the new device here (like 'device_id = 4'):
+device_id = 1
+
 while True:
     try:
         # Get sensor values
@@ -53,12 +56,12 @@ while True:
         if math.isnan(temp) == False and math.isnan(humidity) == False:
             print("temp = %.02f C humidity =%.02f%%"%(temp, humidity))
             
-        LightData= json.dumps({'device_id':'1', 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'light', 'value': lightsensor_value});
+        LightData= json.dumps({'device_id': device_id, 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'light', 'value': lightsensor_value});
         
-        SoundData= json.dumps({'device_id':'1', 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'sound', 'value': int(soundsensor_value)});
+        SoundData= json.dumps({'device_id': device_id, 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'sound', 'value': int(soundsensor_value)});
         ##casting the humidity and temp values to an int
-        TempData= json.dumps({'device_id':'1', 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'temp', 'value': int(temp)});
-        HumidData= json.dumps({'device_id':'1', 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'humidity', 'value': int(humidity)});
+        TempData= json.dumps({'device_id': device_id, 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'temp', 'value': int(temp)});
+        HumidData= json.dumps({'device_id': device_id, 'created_on': ts.strftime("%Y-%m-%dT%H:%M:%S"), 'type': 'humidity', 'value': int(humidity)});
         l = requests.post('http://145.24.222.238/api/readings/create', data = LightData, headers = header_content)
         s = requests.post('http://145.24.222.238/api/readings/create', data = SoundData, headers = header_content)
         t = requests.post('http://145.24.222.238/api/readings/create', data = TempData, headers = header_content)  
